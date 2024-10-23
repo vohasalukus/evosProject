@@ -13,3 +13,10 @@ class SUserAuth(BaseModel):
     email: EmailStr
     password: str
 
+
+class SRUser(BaseModel):
+    id: int
+    name: str
+    email: EmailStr
+    role: UserRole
+

@@ -4,7 +4,7 @@ from app.exceptions import UserAlreadyExistsException, IncorrectEmailOrPassword
 from app.user.auth import get_hashed_password, create_access_token, authenticate_user
 from app.user.dependencies import get_current_user
 from app.user.models import User
-from app.user.schemas import SUserRegister, SUserAuth
+from app.user.schemas import SUserRegister, SUserAuth, SRUser
 
 router = APIRouter(
     prefix="/user",
@@ -12,7 +12,7 @@ router = APIRouter(
 )
 
 
-@router.post("/register")
+@router.post("/register", response_model=SRUser)
 async def register_user(user_data: SUserRegister, response: Response):
     """
     Поле name необязательно
@@ -42,7 +42,7 @@ async def register_user(user_data: SUserRegister, response: Response):
     }
 
 
-@router.post("/login")
+@router.post("/login", response_model=SRUser)
 async def login(response: Response, user_data: SUserAuth):
     user = await authenticate_user(user_data.email, user_data.password)
     if not user:
@@ -72,7 +72,7 @@ async def logout(response: Response):
     }
 
 
-@router.get("/current-user")
+@router.get("/current-user", response_model=SRUser)
 async def current_user(user: User = Depends(get_current_user)):
     return {
         "status": 200,
