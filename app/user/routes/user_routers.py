@@ -12,7 +12,7 @@ router = APIRouter(
 )
 
 
-@router.post("/register", response_model=SRUser)
+@router.post("/register")
 async def register_user(user_data: SUserRegister, response: Response):
     """
     Поле name необязательно
@@ -42,8 +42,11 @@ async def register_user(user_data: SUserRegister, response: Response):
     }
 
 
-@router.post("/login", response_model=SRUser)
+@router.post("/login")
 async def login(response: Response, user_data: SUserAuth):
+    """
+    Вход пользователя по проверки email и password
+    """
     user = await authenticate_user(user_data.email, user_data.password)
     if not user:
         raise IncorrectEmailOrPassword
@@ -65,6 +68,9 @@ async def login(response: Response, user_data: SUserAuth):
 
 @router.post("/logout")
 async def logout(response: Response):
+    """
+    Выход из аккаунта
+    """
     response.delete_cookie("access_token")
     return {
         "status": 200,
@@ -72,8 +78,11 @@ async def logout(response: Response):
     }
 
 
-@router.get("/current-user", response_model=SRUser)
+@router.get("/current-user")
 async def current_user(user: User = Depends(get_current_user)):
+    """
+    Получения текущего user; используется для проверки авторизованн ли пользователь или нет
+    """
     return {
         "status": 200,
         "data": {
@@ -87,6 +96,9 @@ async def current_user(user: User = Depends(get_current_user)):
 
 @router.post('/change-password')
 async def change_password(user: User = Depends(get_current_user), new_password: str = Form()):
+    """
+    Изменение пароля
+    """
     hashed_password = get_hashed_password(new_password)
     await User.update(model_id=user.id, hashed_password=hashed_password)
     return {
@@ -98,6 +110,9 @@ async def change_password(user: User = Depends(get_current_user), new_password: 
 @router.patch('/update')
 async def update_user(
         name: str = None, email: str = None, role: str = None, user: User = Depends(get_current_user)):
+    """
+    Обновление информации пользователя; пароль не включен в этот запрос; обновление параметров опцианально
+    """
     update_data = {}
 
     if name is not None:

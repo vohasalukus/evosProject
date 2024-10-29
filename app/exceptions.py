@@ -28,3 +28,7 @@ ModelNotFoundException = HTTPException(
 NotPermissionException = HTTPException(
     status_code=status.HTTP_403_FORBIDDEN, detail="Нет соответствующего разрешения для выполнения этого действия"
 )
+
+ObjectAlreadyExistsException = HTTPException(
+    status_code=status.HTTP_409_CONFLICT, detail="Запись уже существует"
+)

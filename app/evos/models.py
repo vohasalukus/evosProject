@@ -1,16 +1,18 @@
 from typing import List
+
 from sqlalchemy import String, Integer, ForeignKey
 from sqlalchemy.orm import Mapped, relationship
 from sqlalchemy.testing.schema import mapped_column
+
 from app.repository.base import Base
 
 
 class Category(Base):
+
     name: Mapped[str] = mapped_column(String(256), index=True)
 
     # id dish - Many to one
     dishes: Mapped[List["Dish"]] = relationship("Dish", back_populates="category")
-
 
 class Dish(Base):
     name: Mapped[str] = mapped_column(String(256), index=True)
@@ -29,6 +31,7 @@ class Dish(Base):
 
 
 class Cart(Base):
+
     quantity: Mapped[int] = mapped_column(Integer)
 
     # user id - one to one
@@ -40,6 +43,7 @@ class Cart(Base):
 
 
 class Order(Base):
+
     # user id - Many to one
     user: Mapped["User"] = relationship("User", back_populates="orders")
     user_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id"))
@@ -47,8 +51,8 @@ class Order(Base):
     # orderItems - Many to one
     order_items: Mapped[List["OrderItem"]] = relationship("OrderItem", back_populates="order")
 
-
 class OrderItem(Base):
+
     quantity: Mapped[int] = mapped_column(Integer)
 
     # dish id - One to many
