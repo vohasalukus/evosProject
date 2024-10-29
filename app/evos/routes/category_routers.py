@@ -12,7 +12,7 @@ router = APIRouter(
 )
 
 
-@router.post('/create',response_model=SRCategory)
+@router.post('/create', response_model=SRCategory)
 async def add_category(category_data: SCategory, user: User = Depends(get_current_user)):
 
     existing_category = await Category.find_one_or_none(Category.name == category_data.name)

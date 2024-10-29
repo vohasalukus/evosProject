@@ -25,7 +25,7 @@ class Dish(Base):
 
     # id cart - Many to one
     cart: Mapped["Cart"] = relationship("Cart", back_populates="dishes")
-    cart_id: Mapped[int] = mapped_column(Integer, ForeignKey("carts.id"))
+    cart_id: Mapped[int] = mapped_column(Integer, ForeignKey("carts.id"), nullable=True)
 
     # id order_items - Many to one
     order_items: Mapped[List["OrderItem"]] = relationship("OrderItem", back_populates="dish")

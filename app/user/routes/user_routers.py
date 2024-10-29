@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, Response, Form
 
-from app.exceptions import UserAlreadyExistsException, IncorrectEmailOrPassword
+from app.exceptions import UserAlreadyExistsException, IncorrectEmailOrPassword, ModelNotFoundException
 from app.user.auth import get_hashed_password, create_access_token, authenticate_user
 from app.user.dependencies import get_current_user
 from app.user.models import User
