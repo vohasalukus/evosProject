@@ -33,7 +33,7 @@ class Dish(Base):
 
 class Cart(Base):
 
-    quantity: Mapped[int] = mapped_column(Integer)
+    quantity: Mapped[int] = mapped_column(Integer, nullable=True)
 
     # user id - one to one
     user: Mapped["User"] = relationship("User", back_populates="cart")

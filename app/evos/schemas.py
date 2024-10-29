@@ -1,3 +1,5 @@
+from typing import List
+
 from pydantic import BaseModel
 
 # Category Schema
@@ -29,3 +31,12 @@ class SUDish(BaseModel):
 
 class SRDish(SDish):
     id: int
+
+
+# Cart Schema
+
+
+class SCart(BaseModel):
+    id: int
+    dishes: List[SDish] = []
+    total_quantity: int | None = None
