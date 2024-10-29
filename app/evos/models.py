@@ -14,6 +14,7 @@ class Category(Base):
     # id dish - Many to one
     dishes: Mapped[List["Dish"]] = relationship("Dish", back_populates="category")
 
+
 class Dish(Base):
     name: Mapped[str] = mapped_column(String(256), index=True)
     price: Mapped[int] = mapped_column(Integer)
@@ -50,6 +51,7 @@ class Order(Base):
 
     # orderItems - Many to one
     order_items: Mapped[List["OrderItem"]] = relationship("OrderItem", back_populates="order")
+
 
 class OrderItem(Base):
 
